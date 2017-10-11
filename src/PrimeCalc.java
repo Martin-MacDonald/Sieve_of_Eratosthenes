@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class PrimeCalc{
 	
-	private ArrayList<Integer> primeNumbersArray = new ArrayList<>();
+	private ArrayList<String> primeNumbersArray = new ArrayList<>();
 	private int calcLimit;
 	
 	public PrimeCalc(int calcLimit){
@@ -26,7 +26,7 @@ public class PrimeCalc{
 			}
 			
 			if(isPrime){
-				primeNumbersArray.add(i);
+				primeNumbersArray.add(Integer.toString(i));
 			} 
 			
 		}
@@ -38,7 +38,7 @@ public class PrimeCalc{
 		return this.calcLimit;
 	}
 	
-	public ArrayList<Integer> getPrimeNumbersArray(){
+	public ArrayList<String> getPrimeNumbersArray(){
 		return this.primeNumbersArray;
 	}
 	
