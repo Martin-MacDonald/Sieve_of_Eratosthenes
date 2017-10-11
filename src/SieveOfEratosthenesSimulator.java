@@ -10,8 +10,20 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ButtonModel;
+import javax.swing.JList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JScrollPane;
+import javax.swing.Box;
+import javax.swing.border.EmptyBorder;
+import java.awt.Component;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class SieveOfEratosthenesSimulator extends JFrame{
+	
+	private JScrollPane pane;
 	
 	public SieveOfEratosthenesSimulator(){
 		
@@ -36,27 +48,46 @@ public class SieveOfEratosthenesSimulator extends JFrame{
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Sieve Of Eratosthenes");
 		
+		JLabel lbl = new JLabel("Pick a number to find all the primes from 2 up to and including the selected number");
+		lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lbl.setFont(new Font(Font.SERIF, Font.BOLD, 25));
+		
 		JPanel panel = new JPanel();
+		
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBorder(new EmptyBorder(10,10,10,10));
 		
 		JComboBox<Integer> numberList = new JComboBox<>(createNumberList());
+		numberList.setFont(new Font(Font.SERIF, 0, 25));
+		
+		DefaultListModel<String> primeListModel = new DefaultListModel<>();
+		JList<String> primeList = new JList<>(primeListModel);
+		primeList.setFont(new Font(Font.SERIF, 0, 25));
+		pane = new JScrollPane(primeList);
 
 		JButton calcBtn = new JButton("Find Primes");
+		calcBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+		calcBtn.setFont(new Font(Font.SERIF, 0, 25));
 		ButtonModel calcBtnModel = calcBtn.getModel();
 		calcBtnModel.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent e){
 				
 				PrimeCalc pc = new PrimeCalc((int)numberList.getSelectedItem());
-		
-				System.out.println(pc.getPrimeNumbersArray());				
+				getPrimeList(primeListModel, pc.getPrimeNumbersArray());				
 				
 			}
 			
 		});
-
+		
+		panel.add(lbl);
+		panel.add(Box.createVerticalStrut(10));
 		panel.add(numberList);
+		panel.add(Box.createVerticalStrut(10));
 		panel.add(calcBtn);
+		panel.add(Box.createVerticalStrut(10));
+		panel.add(pane);
+		pane.setVisible(false);
 		add(panel);
 		pack();
 		
@@ -77,5 +108,19 @@ public class SieveOfEratosthenesSimulator extends JFrame{
 		return numList;
 		
 	}
+	
+	public void getPrimeList(DefaultListModel<String> primeListModel, List<String> primeNumbersArray){
+		
+		primeListModel.removeAllElements();
+		
+		for (String s : primeNumbersArray){
+			primeListModel.addElement(s);
+		}
+
+		pane.setVisible(true);
+		pack();
+		
+	}
+		
 	
 }
